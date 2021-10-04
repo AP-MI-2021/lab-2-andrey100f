@@ -110,6 +110,16 @@ def test_is_superprime(n):
         return True
     return False
 
+assert test_is_superprime(237)
+assert test_is_superprime(1024)
+assert test_is_superprime(1000)
+assert test_is_palindrome(1221)
+assert test_is_palindrome(9)
+assert test_is_palindrome(123)
+assert test_get_largest_prime_below(7)
+assert test_get_largest_prime_below(100)
+assert test_get_largest_prime_below(25)
+
 def main():
     print("1. Găsește ultimul număr prim mai mic decât un număr dat.")
     print("2. Determină dacă un număr dat este palindrom.")
