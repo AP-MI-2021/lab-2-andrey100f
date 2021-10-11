@@ -1,155 +1,132 @@
 def prim(numar):
     """
-    Verifica daca un numar este prim
+    Verifica daca un numar intreg este prim
     :param numar: o valoare intreaga "numar"
-    :return: True, daca "numar" este prim, False in caz contrar
+    :return: True, daca "numar" este prim, iar False in caz contrar
     """
     if numar < 2:
         return False
     else:
-        for i in range (2, numar // 2):
+        for i in range(2, numar // 2):
             if numar % i == 0:
                 return False
         return True
 
-def is_palindrome(n):
+
+def invers(numar):
     """
-    Verifica daca un numar n este palindrom
-    :param n: un numar intreg n
-    :return: True, daca n este palindrom, respectiv False in caz contrar
+    Calculeaza inversul unui numar
+    :param numar: o valoare intreaga "numar"
+    :return: o valoare intreaga "oglindit", reprezentand inversul lui "numar"
     """
     oglindit = 0
-    copie = n
-    while copie != 0:
-        oglindit = oglindit * 10 + copie % 10
-        copie = copie // 10
-    if oglindit == n:
-        return True
-    return False
+    while numar != 0:
+        oglindit = (oglindit * 10) + (numar % 10)
+        numar = numar // 10
+    return oglindit
 
-def test_is_palindrome(n):
-    """
-    Verifica daca un numar n este palindrom
-    :param n: un numar intreg n
-    :return: True, daca n este palindrom, respectiv False in caz contrar
-    """
-    oglindit = 0
-    copie = n
-    while copie != 0:
-        oglindit = oglindit * 10 + copie % 10
-        copie = copie // 10
-    if oglindit == n:
-        return True
-    return False
 
-def is_superprime(n):
+def get_largest_prime_below(numar):
     """
-    Verifica daca un numar este superprim
-    :param n: o valoare intreaga n
-    :return: True, daca n este superprim, iar False in caz contrar
-    """
-    putere = 1
-    copie = 0
-    verificare = 1
-    while putere * putere <= n:
-        putere = putere * 10
-    while putere != 0:
-        cifra = n / putere
-        copie = (int)(copie * 10 + cifra)
-        ok = prim (copie)
-        if ok == False:
-            verificare = 0
-        n = n % putere
-        putere = putere // 10
-    if verificare == 1:
-        return True
-    return False
-
-def get_largest_prime_below(n):
-    """
-    Calculeaza ultimul numar prim de inaintea lui n
-    :param n: un numar intreg n
+    Calculeaza ultima valoare prima, mai mica decat "numar"
+    :param numar: o valoare intreaga "numar"
     :return: o valoare intreaga
     """
-    for i in range (n, 1, -1):
+    for i in range(numar, 1, -1):
         verificare = prim(i)
-        if verificare == True:
+        if verificare is True:
             return i
 
-def test_get_largest_prime_below(n):
-    """
-    Calculeaza ultimul numar prim de inaintea lui n
-    :param n: un numar intreg n
-    :return: o valoare intreaga
-    """
-    for i in range (n, 1, -1):
-        verificare = prim(i)
-        if verificare == True:
-            return i
 
-def test_is_superprime(n):
+def is_palindrome(numar):
     """
-    Verifica daca un numar este superprim
-    :param n: o valoare intreaga n
-    :return: True, daca n este superprim, iar False in caz contrar
+    Verifica daca un numar este palindrom
+    :param numar: o valoare intreaga "numar"
+    :return: True, daca "numar" este palindrom, respectiv False in caz contrar
     """
-    putere = 1
-    copie = 0
-    verificare = 1
-    while putere * putere <= n:
-        putere = putere * 10
-    while putere != 0:
-        cifra = n / putere
-        copie = (int)(copie * 10 + cifra)
-        ok = prim (copie)
-        if ok == False:
-            verificare = 0
-        n = n % putere
-        putere = putere // 10
-    if verificare == 1:
+    oglindit = invers(numar)
+    if oglindit == numar:
         return True
     return False
 
-assert test_is_superprime(237)
-assert test_is_superprime(1024)
-assert test_is_superprime(1000)
-assert test_is_palindrome(1221)
-assert test_is_palindrome(9)
-assert test_is_palindrome(123)
-assert test_get_largest_prime_below(7)
-assert test_get_largest_prime_below(100)
-assert test_get_largest_prime_below(25)
 
-def main():
-    print("1. Găsește ultimul număr prim mai mic decât un număr dat.")
-    print("2. Determină dacă un număr dat este palindrom.")
-    print("3. Determină dacă un număr este superprim: dacă toate prefixele sale sunt prime.")
+def is_superprime(numar):
+    """
+    Verifica daca un numar este superprim
+    :param numar: o valoare intreaga "numar"
+    :return: True, daca "numar" este superprim, resprectiv False in caz contrar
+    """
+    putere = 1
+    numar_nou = 0
+    while putere * 10 <= numar:
+        putere = putere * 10
+    while putere != 0:
+        cifra = numar // putere
+        numar_nou = (numar_nou * 10) + cifra
+        verificare = prim(numar_nou)
+        if verificare is False:
+            return False
+        numar = numar % putere
+        putere = putere // 10
+    return True
+
+
+def test_get_largest_prime_below():
+    assert get_largest_prime_below(25) == 23
+    assert get_largest_prime_below(9) == 7
+    assert get_largest_prime_below(5) == 5
+
+
+def test_is_palindrome():
+    assert is_palindrome(123) is False
+    assert is_palindrome(111) is True
+    assert is_palindrome(7) is True
+
+
+def test_is_superprime():
+    assert is_superprime(233) is True
+    assert is_superprime(237) is False
+    assert is_superprime(7) is True
+
+
+def meniu():
+    print("1. Gasește ultimul numar prim mai mic decat un numar dat.")
+    print("2. Determina daca un numar dat este palindrom.")
+    print("3. Determina daca un numar este superprim.")
     print("4. Iesire")
-    merge = 1
-    while merge == 1:
-        n = int(input("Dati o valoare de la 1 la 4: "))
-        if n == 1:
-            numar1 = int(input("1. Dati o valoare"))
-            rezultat1 = get_largest_prime_below(numar1)
-            print("Rezultatul este: ", rezultat1)
-        elif n == 2:
-            numar2 = int(input("Dati o valoare: "))
-            rezultat2 = is_palindrome(numar2)
-            if rezultat2 == True:
+    rulare = True
+    while rulare is True:
+        valoare = int(input("Dati o valoare de la 1 la 4: "))
+        if valoare == 1:
+            numar = int(input("Introduceti numarul: "))
+            rezultat = get_largest_prime_below(numar)
+            print("Rezultatul este: ", rezultat)
+        elif valoare == 2:
+            numar = int(input("Intoduceti numarul: "))
+            rezultat = is_palindrome(numar)
+            if rezultat is True:
                 print("Este palindrom")
             else:
                 print("Nu este palindrom")
-        elif n == 3:
-            numar3 = int(input("Dati o valoare: "))
-            rezultat3 = is_superprime(numar3)
-            if rezultat3 == True:
+        elif valoare == 3:
+            numar = int(input("Intoduceti numarul: "))
+            rezultat = is_superprime(numar)
+            if rezultat is True:
                 print("Este superprim")
             else:
                 print("Nu este superprim")
-        elif n == 4:
-            merge = 0
+        elif valoare == 4:
+            rulare = False
         else:
             print("Valoare gresita! Incercati din nou!")
 
+
+def main():
+    test_get_largest_prime_below()
+    test_is_palindrome()
+    test_is_superprime()
+    meniu()
+
+
 if __name__ == '__main__':
-  main()
+    main()
